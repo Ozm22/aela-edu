@@ -41,9 +41,8 @@
             <li><a href="#" class="hover:text-ozm-gold transition">المدونة</a></li>
             <li><a href="#" class="hover:text-ozm-gold transition">اتصل بنا</a></li>
         </ul>
-        <div class="flex items-center">
-            <!-- الشعار -->
-            <img src="1782140387286.jpg" alt="شعار الأكاديمية العربية" class="h-10 md:h-14 object-contain rounded">
+        <div class="flex items-center gap-2">
+            <h1 class="text-lg md:text-2xl font-extrabold text-ozm-green">الأكاديمية العربية</h1>
         </div>
     </nav>
 
@@ -66,8 +65,9 @@
 
         <!-- صورة الواجهة الرئيسية -->
         <div class="relative rounded-3xl overflow-hidden shadow-2xl h-[400px] md:h-[500px]">
-            <img src="1782142071266_3.png" alt="الواجهة الرئيسية" class="absolute inset-0 w-full h-full object-cover">
-            <!-- تظليل خفيف في الأسفل فقط للزر لكي لا يغطي على نصوص الصورة -->
+            <!-- تم تعديل اسم الصورة هنا ليطابق ما رفعته في جيت هاب -->
+            <img src="1782142071266.png" alt="الواجهة الرئيسية" class="absolute inset-0 w-full h-full object-cover">
+            
             <div class="absolute inset-x-0 bottom-0 flex flex-col justify-end items-center p-6 md:p-10 bg-gradient-to-t from-black/70 to-transparent h-1/3">
                 <button onclick="startRegistration()" class="bg-ozm-gold text-white px-10 py-4 rounded-full text-lg md:text-2xl font-bold hover:bg-yellow-600 transition shadow-xl animate-pulse hover:animate-none border-2 border-white/20">ابدأ رحلتك التعليمية الآن</button>
             </div>
@@ -136,7 +136,6 @@
                     <option value="أخرى">أخرى</option>
                 </select>
 
-                <!-- تعديل مكان الميلاد ليكون قائمة دول -->
                 <select id="birthPlace" class="border p-3 rounded-lg w-full focus:outline-none focus:border-ozm-green bg-white" required>
                     <option value="">مكان الميلاد (الدولة)...</option>
                     <option value="اليمن">اليمن</option>
@@ -180,7 +179,6 @@
                 <input type="number" step="0.01" id="gradGPA" placeholder="معدل التخرج (مثال: 85.5)" class="border p-3 rounded-lg w-full focus:outline-none focus:border-ozm-green" required>
                 <input type="text" id="certCode" placeholder="رقم الشهادة / رمز المعاملة" class="border p-3 rounded-lg w-full focus:outline-none focus:border-ozm-green" required>
                 
-                <!-- إضافة سؤال الخبرة السابقة -->
                 <div class="col-span-1 md:col-span-2 bg-gray-50 p-5 rounded-lg border border-gray-200 mt-2 shadow-sm">
                     <label class="block font-bold text-ozm-green mb-3 text-lg">هل سبق ودرست في منصات إلكترونية سابقة؟</label>
                     <div class="flex gap-8">
@@ -470,7 +468,6 @@
             const nationality = document.getElementById('nationality').value;
             const birthPlace = document.getElementById('birthPlace').value;
             
-            // جلب قيمة الخبرة السابقة من الراديو بوتن
             const prevExpInput = document.querySelector('input[name="prevExp"]:checked');
             const prevExp = prevExpInput ? prevExpInput.value : 'لم يتم التحديد';
 
@@ -511,7 +508,6 @@
             };
 
             try {
-                // إرسال الرسالة النصية
                 const textResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -520,7 +516,6 @@
 
                 if (!textResponse.ok) throw new Error('فشل إرسال النص');
 
-                // إرسال المرفقات
                 await sendDocument(filePassport, `جواز السفر - ${studentName}`);
                 await sendDocument(filePhoto, `الصورة الشخصية - ${studentName}`);
                 await sendDocument(fileCert, `الشهادة الثانوية - ${studentName}`);
