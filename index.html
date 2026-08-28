@@ -170,7 +170,7 @@
 
             <div class="flex justify-between mt-8">
                 <button onclick="goToStep('step-3')" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-bold hover:bg-gray-300 transition">رجوع</button>
-                <button onclick="submitForm()" class="px-8 py-3 bg-ozm-gold text-white rounded-lg font-bold text-lg shadow-md hover:bg-yellow-600 transition">تأكيد وإرسال الطلب</button>
+                <button onclick="submitForm(event)" class="px-8 py-3 bg-ozm-gold text-white rounded-lg font-bold text-lg shadow-md hover:bg-yellow-600 transition">تأكيد وإرسال الطلب</button>
             </div>
         </div>
 
@@ -181,7 +181,7 @@
             <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg mt-6 inline-block">
                 <p class="text-lg text-gray-800 font-bold">سيتم الرد عليك بطريقة التحويل ورقم الحساب عبر رقم الهاتف المسجل لدينا.</p>
             </div>
-            <p class="text-sm text-gray-400 mt-6 font-semibold">(تم توجيه الطلب تلقائياً إلى المعرف: @Eeaui)</p>
+            <p class="text-sm text-gray-400 mt-6 font-semibold">(تم توجيه الطلب تلقائياً إلى المعرف الخاص بنا)</p>
             <button onclick="location.reload()" class="mt-8 px-6 py-2 border border-ozm-green text-ozm-green rounded-full font-bold hover:bg-teal-50 transition">العودة للرئيسية</button>
         </div>
     </div>
@@ -328,7 +328,7 @@
             });
         }
 
-        async function submitForm() {
+        async function submitForm(event) {
             const phone = document.getElementById('phoneNumber').value;
             const country = document.getElementById('country').value;
             if (!phone || !country) {
@@ -336,7 +336,6 @@
                 return;
             }
 
-            // هنا يتم تجهيز البيانات الافتراضية
             const studentName = document.getElementById('nameAr').value;
             const message = `
 🌟 طلب تسجيل جديد - الأكاديمية العربية 🌟
@@ -348,8 +347,41 @@
 طريقة الدفع: ${document.getElementById('paymentMethod').value}
             `;
             
-            // محاكاة إرسال البيانات وإظهار واجهة النجاح
-            goToStep('step-success');
+            // بيانات البوت الخاص بك
+            const botToken = '8868584934:AAE0jkikO04FtbUbRh8jrwR3ComrJ3md_ho';
+            const chatId = '8868584934'; 
+            const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+            // تغيير نص الزر أثناء الإرسال لتنبيه المستخدم
+            const submitBtn = event ? event.target : document.querySelector('button[onclick="submitForm(event)"]');
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = 'جاري إرسال الطلب...';
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch(telegramUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: message,
+                    }),
+                });
+
+                if (response.ok) {
+                    goToStep('step-success');
+                } else {
+                    alert('حدث خطأ أثناء إرسال البيانات لتيليجرام. يرجى المحاولة لاحقاً.');
+                }
+            } catch (error) {
+                console.error('Error sending message:', error);
+                alert('فشل الاتصال بالإنترنت أو الخادم.');
+            } finally {
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            }
         }
     </script>
 </body>
