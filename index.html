@@ -52,7 +52,18 @@
             <img src="1782141329597.png" alt="الواجهة الرئيسية" class="absolute inset-0 w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-t from-ozm-green/95 via-ozm-green/60 to-transparent flex flex-col justify-end p-6 md:p-12 text-center">
                 <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-4 leading-tight">قيادة التميز المعرفي في العصر الرقمي</h2>
-                <p class="text-base md:text-lg text-gray-200 mb-8 max-w-3xl mx-auto">بوابتك العربية إلى مستقبل واعد من التعليم الحديث والمهارات المتقدمة، حيث نبني معاً قادة المستقبل.</p>
+                <p class="text-base md:text-lg text-gray-200 mb-4 max-w-3xl mx-auto">بوابتك العربية إلى مستقبل واعد من التعليم الحديث والمهارات المتقدمة، حيث نبني معاً قادة المستقبل.</p>
+                
+                <!-- إضافة نبذة جامعة قطر -->
+                <div class="mb-8 mt-2 p-4 bg-black/40 backdrop-blur-sm rounded-xl border border-white/20 inline-block text-right max-w-2xl mx-auto">
+                    <h3 class="text-xl font-bold text-ozm-gold mb-2 flex items-center justify-center gap-2">
+                        <span class="text-2xl">🎓</span> معتمدون من قبل جامعة قطر
+                    </h3>
+                    <p class="text-sm text-gray-200 text-center">
+                        جامعة قطر هي المؤسسة التعليمية الرائدة للتعليم العالي في الدولة، تتميز بتقديم برامج أكاديمية وبحثية عالية الجودة تتوافق مع المعايير الدولية، مما يضمن لطلابنا شهادة قوية ومعترف بها تفتح لهم آفاقاً واسعة في سوق العمل.
+                    </p>
+                </div>
+
                 <div>
                     <button onclick="startRegistration()" class="bg-ozm-gold text-white px-8 py-3 rounded-full text-lg md:text-xl font-bold hover:bg-yellow-600 transition shadow-lg animate-pulse hover:animate-none">ابدأ رحلتك التعليمية الآن</button>
                 </div>
@@ -83,12 +94,31 @@
                 <input type="text" id="nameAr" placeholder="الاسم بالكامل (عربي)" class="border p-3 rounded-lg w-full focus:outline-none focus:border-ozm-green" required>
                 <input type="text" id="nameEn" placeholder="الاسم بالكامل (إنجليزي)" class="border p-3 rounded-lg w-full focus:outline-none focus:border-ozm-green" required>
                 <input type="email" id="email" placeholder="البريد الإلكتروني" class="border p-3 rounded-lg w-full focus:outline-none focus:border-ozm-green" required>
-                <input type="text" id="nationality" placeholder="الجنسية" class="border p-3 rounded-lg w-full focus:outline-none focus:border-ozm-green" required>
+                
+                <!-- تعديل حقل الجنسية ليصبح قائمة منسدلة -->
+                <select id="nationality" class="border p-3 rounded-lg w-full focus:outline-none focus:border-ozm-green bg-white" required>
+                    <option value="">اختر الجنسية...</option>
+                    <option value="يمني">يمني</option>
+                    <option value="سعودي">سعودي</option>
+                    <option value="مصري">مصري</option>
+                    <option value="قطري">قطري</option>
+                    <option value="أردني">أردني</option>
+                    <option value="عراقي">عراقي</option>
+                    <option value="سوداني">سوداني</option>
+                    <option value="عماني">عماني</option>
+                    <option value="كويتي">كويتي</option>
+                    <option value="بحريني">بحريني</option>
+                    <option value="أخرى">أخرى</option>
+                </select>
+
                 <input type="text" id="birthPlace" placeholder="مكان الميلاد" class="border p-3 rounded-lg w-full focus:outline-none focus:border-ozm-green" required>
+                
+                <!-- تعديل تاريخ الميلاد مع تقييد السنوات -->
                 <div>
-                    <label class="text-xs text-gray-500 mb-1 block">تاريخ الميلاد:</label>
-                    <input type="date" id="birthDate" class="border p-3 rounded-lg w-full focus:outline-none focus:border-ozm-green" required>
+                    <label class="text-xs text-gray-500 mb-1 block">تاريخ الميلاد (بين 1999 و 2008):</label>
+                    <input type="date" id="birthDate" min="1999-01-01" max="2008-12-31" class="border p-3 rounded-lg w-full focus:outline-none focus:border-ozm-green" required>
                 </div>
+
                 <input type="text" id="passportNum" placeholder="رقم جواز السفر" class="border p-3 rounded-lg w-full focus:outline-none focus:border-ozm-green" required>
                 <div>
                     <label class="text-xs text-gray-500 mb-1 block">تاريخ إصدار الجواز:</label>
@@ -105,12 +135,19 @@
                 <input type="number" step="0.01" id="gradGPA" placeholder="معدل التخرج (مثال: 85.5)" class="border p-3 rounded-lg w-full focus:outline-none focus:border-ozm-green" required>
                 <input type="text" id="certCode" placeholder="رقم الشهادة / رمز المعاملة" class="border p-3 rounded-lg w-full focus:outline-none focus:border-ozm-green" required>
                 
+                <!-- تعديل المرفقات المطلوبة -->
                 <div class="col-span-1 md:col-span-2 mt-4 bg-teal-50 p-6 rounded-lg border-2 border-dashed border-teal-200">
                     <h4 class="font-bold text-ozm-green mb-4">المرفقات المطلوبة</h4>
+                    
                     <label class="block mb-4 font-semibold text-gray-700">صورة جواز السفر: 
                         <input type="file" id="filePassport" class="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-100 file:text-teal-700 hover:file:bg-teal-200 cursor-pointer" required>
                     </label>
-                    <label class="block font-semibold text-gray-700">شهادة الثانوية (معمدة من الخارجية): 
+                    
+                    <label class="block mb-4 font-semibold text-gray-700">صورة شخصية (خلفية بيضاء رسمية): 
+                        <input type="file" id="filePhoto" class="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-100 file:text-teal-700 hover:file:bg-teal-200 cursor-pointer" required>
+                    </label>
+
+                    <label class="block font-semibold text-gray-700">صورة الشهادة (معمدة من الخارجية): 
                         <input type="file" id="fileCert" class="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-100 file:text-teal-700 hover:file:bg-teal-200 cursor-pointer" required>
                     </label>
                 </div>
@@ -136,6 +173,15 @@
         <div id="step-4" class="hidden-step">
             <h3 class="text-2xl font-bold text-ozm-green mb-6 border-b-2 border-ozm-gold pb-2">تفاصيل الرسوم الدراسية وطريقة الدفع</h3>
             
+            <!-- إضافة خيار تعميد الشهادة -->
+            <div class="bg-yellow-50 p-5 rounded-xl border border-yellow-200 mb-6 flex items-start gap-4">
+                <input type="checkbox" id="needsAuth" onchange="calculatePricing()" class="mt-1 w-6 h-6 text-ozm-gold border-gray-300 rounded cursor-pointer">
+                <label for="needsAuth" class="font-bold text-gray-800 cursor-pointer select-none">
+                    شهادتي غير معمدة من الخارجية وأرغب في تعميدها
+                    <span class="block text-sm text-red-600 mt-1 font-semibold">سيتم إضافة رسوم تعميد (تدفع لمرة واحدة) بقيمة 50$ (أو 200 ريال سعودي) منفصلة عن الرسوم الدراسية.</span>
+                </label>
+            </div>
+
             <div id="pricing-summary" class="bg-teal-50 p-6 rounded-xl border border-teal-200 mb-8 shadow-sm">
                 </div>
 
@@ -206,6 +252,7 @@
             },
             regFee: 50,
             emailFee: 25,
+            authFeeAmount: 50, // رسوم التعميد
             terms: { diploma: 4, bachelor: 8 }
         };
 
@@ -268,6 +315,8 @@
 
         function selectMajor(major) {
             data.selectedMajor = major;
+            // تصفير خيار التعميد عند العودة واختيار تخصص جديد
+            document.getElementById('needsAuth').checked = false;
             calculatePricing();
             goToStep('step-4');
         }
@@ -275,8 +324,24 @@
         function calculatePricing() {
             const tuition = data.pricing[data.system][data.selectedMajor];
             const termCount = data.terms[data.system];
-            const total = tuition + data.regFee + data.emailFee;
-            const perTerm = (total / termCount).toFixed(2);
+            const needsAuth = document.getElementById('needsAuth').checked;
+            
+            // حساب الإجمالي بدون التعميد لمعرفة قسط الترم
+            const baseTotal = tuition + data.regFee + data.emailFee;
+            const perTerm = (baseTotal / termCount).toFixed(2);
+            
+            // الإجمالي النهائي مع التعميد (إن وجد)
+            const finalTotal = needsAuth ? baseTotal + data.authFeeAmount : baseTotal;
+            const firstPayment = needsAuth ? (parseFloat(perTerm) + data.authFeeAmount).toFixed(2) : perTerm;
+
+            let authHtml = '';
+            if (needsAuth) {
+                authHtml = `
+                <li class="flex justify-between items-center bg-red-50 p-2 rounded text-red-700">
+                    <span class="font-bold">رسوم تعميد الشهادة (تدفع لمرة واحدة):</span> 
+                    <span class="font-extrabold">$${data.authFeeAmount}</span>
+                </li>`;
+            }
 
             const summaryHtml = `
                 <h4 class="text-xl font-extrabold text-ozm-green mb-4 pb-2 border-b border-teal-200">ملخص الرسوم الدراسية - ${data.selectedMajor} (${data.system === 'diploma' ? 'دبلوم' : 'بكالوريوس'})</h4>
@@ -293,12 +358,17 @@
                         <span class="font-semibold">الرسوم الدراسية للتخصص كاملة:</span> 
                         <span class="bg-white px-3 py-1 rounded shadow-sm font-bold">$${tuition}</span>
                     </li>
+                    ${authHtml}
                     <li class="flex justify-between items-center pt-4 border-t border-teal-200 text-ozm-green font-extrabold text-xl">
-                        <span>إجمالي المبلغ المطلوب:</span> 
-                        <span>$${total}</span>
+                        <span>إجمالي المبلغ الشامل:</span> 
+                        <span>$${finalTotal}</span>
                     </li>
                     <li class="flex justify-between items-center mt-2 bg-ozm-gold text-white p-3 rounded-lg font-bold">
-                        <span>المبلغ المستحق للدفع لكل ترم (${termCount} أترام):</span> 
+                        <span>المطلوب دفعه للترم الأول ${needsAuth ? '(شامل رسوم التعميد)' : ''}:</span> 
+                        <span>$${firstPayment}</span>
+                    </li>
+                    <li class="flex justify-between items-center mt-2 bg-teal-700 text-white p-3 rounded-lg font-bold text-sm">
+                        <span>الأترام المتبقية (${termCount - 1} أترام):</span> 
                         <span>$${perTerm} / ترم</span>
                     </li>
                 </ul>
@@ -336,22 +406,24 @@
             }
 
             const studentName = document.getElementById('nameAr').value;
+            const needsAuth = document.getElementById('needsAuth').checked ? 'مطلوب تعميد (يضاف 50$)' : 'معمدة جاهزة';
+            
             const message = `
 🌟 طلب تسجيل جديد - الأكاديمية العربية 🌟
 الاسم: ${studentName}
+الجنسية: ${document.getElementById('nationality').value}
 النظام: ${data.system === 'diploma' ? 'دبلوم' : 'بكالوريوس'}
 التخصص: ${data.selectedMajor}
-الدولة: ${country}
-الهاتف: ${phone}
+حالة الشهادة: ${needsAuth}
+الدولة الحالية: ${country}
+رقم التواصل: ${phone}
 طريقة الدفع: ${document.getElementById('paymentMethod').value}
             `;
             
-            // تم تعديل التوكن والآيدي هنا
             const botToken = '8868584934:AAE0jkikO04FtbUbRh8jrwR3ComrJ3md_ho';
             const chatId = '5478867416'; 
             const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
-            // تغيير نص الزر أثناء الإرسال لتنبيه المستخدم
             const submitBtn = event ? event.target : document.querySelector('button[onclick="submitForm(event)"]');
             const originalText = submitBtn.innerText;
             submitBtn.innerText = 'جاري إرسال الطلب...';
