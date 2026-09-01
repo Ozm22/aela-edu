@@ -62,13 +62,13 @@
         const SUPABASE_URL = 'https://ovxstsmbzeuanbylmefq.supabase.co';
         const SUPABASE_KEY = 'Sb_publishable_xVQ6FzQf0Y44JaMTHkIkGA_shW0UU2h';
         
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         async function handleLogin(event) {
             event.preventDefault(); // منع تحديث الصفحة
             
-            const idInput = document.getElementById('academicId').value;
-            const passInput = document.getElementById('password').value;
+            const idInput = document.getElementById('academicId').value.trim();
+            const passInput = document.getElementById('password').value.trim();
             const btn = document.getElementById('submit-btn');
             const alertBox = document.getElementById('alert-box');
 
@@ -96,8 +96,6 @@
                     } else {
                         // حالة الدفع صحيحة (نجاح الدخول)
                         showAlert('تم تسجيل الدخول بنجاح! جاري التوجيه...', 'bg-green-100', 'text-green-800', 'border-green-300');
-                        // هنا نضع كود توجيه الطالب للوحة التحكم مستقبلاً
-                        // window.location.href = 'dashboard.html';
                     }
                 }
             } catch (err) {
