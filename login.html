@@ -3,12 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول | الأكاديمية العربية</title>
-    
+    <title>الرئيسية | الأكاديمية العربية</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- استدعاء مكتبة Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
     <script>
         tailwind.config = {
             theme: {
@@ -29,88 +25,47 @@
         body { font-family: 'Tajawal', sans-serif; background-color: #fdfbf7; }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen">
+<body class="bg-gray-50 text-gray-800">
 
-    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-100">
-        <div class="text-center mb-8">
-            <h1 class="text-3xl font-extrabold text-ozm-green mb-2">الأكاديمية العربية</h1>
-            <p class="text-gray-500 font-semibold">بوابة دخول الطلاب</p>
+    <!-- القائمة العلوية -->
+    <header class="bg-white shadow-sm py-4 px-6 flex justify-between items-center">
+        <h1 class="text-xl font-extrabold text-ozm-green">الأكاديمية العربية</h1>
+        <div class="space-x-2 space-x-reverse">
+            <!-- تم تعديل هذا الزر لينقلك لصفحة تسجيل الدخول مباشرة -->
+            <a href="login.html" class="border border-ozm-gold text-ozm-gold px-4 py-2 rounded-lg hover:bg-ozm-gold hover:text-white transition font-bold text-sm">تسجيل الدخول</a>
+            <a href="#" class="bg-ozm-green text-white px-4 py-2 rounded-lg hover:bg-teal-800 transition font-bold text-sm">انضم الآن</a>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="max-w-4xl mx-auto p-6 space-y-6">
+        
+        <!-- صندوق الإعلان -->
+        <div class="bg-white border border-blue-100 shadow-md rounded-2xl p-6 relative overflow-hidden">
+            <div class="flex items-center space-x-3 space-x-reverse mb-4">
+                <span class="text-3xl">📢</span>
+                <h2 class="text-xl font-bold text-blue-900">إعلان هام: بدء التسجيل للدفعة رقم (6) للعام 2026/2027</h2>
+            </div>
+            <p class="text-gray-600 leading-relaxed mb-4">
+                تبدأ فترة التسجيل وتقديم الطلبات من تاريخ <span class="font-bold text-gray-800">2026/08/27</span> وتنتهي في <span class="font-bold text-gray-800">2026/09/15</span>.<br>
+                تبدأ الدراسة الفعلية في <span class="font-bold text-gray-800">2026/10/03</span>. نهيب بجميع الطلاب سرعة التسجيل قبل اكتمال المقاعد!
+            </p>
+            <div class="text-center">
+                <a href="login.html" class="inline-block bg-blue-600 text-white font-bold px-6 py-3 rounded-xl hover:bg-blue-700 transition shadow">
+                    سجل مقعدك الآن
+                </a>
+            </div>
         </div>
 
-        <!-- رسائل التنبيه (مخفية افتراضياً) -->
-        <div id="alert-box" class="hidden mb-4 p-4 rounded-lg text-sm font-bold text-center"></div>
+        <!-- قسم تعريفى -->
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 p-6 text-center space-y-4">
+            <h2 class="text-2xl font-extrabold text-ozm-green">قيادة التميز المعرفي في العصر الرقمي</h2>
+            <p class="text-gray-500 max-w-xl mx-auto">
+                بوابتك العربية إلى التعليم الحديث والمهارات المتقدمة. انضم إلينا وابدأ رحلتك التعليمية الآن.
+            </p>
+        </div>
 
-        <form id="login-form" onsubmit="handleLogin(event)" class="space-y-5">
-            <div>
-                <label class="block text-gray-700 font-bold mb-2">الرقم الأكاديمي</label>
-                <input type="text" id="academicId" placeholder="مثال: 2026001" class="w-full border-2 border-gray-200 p-3 rounded-lg focus:outline-none focus:border-ozm-green" required>
-            </div>
-            
-            <div>
-                <label class="block text-gray-700 font-bold mb-2">كلمة المرور</label>
-                <input type="password" id="password" placeholder="أدخل كلمة المرور" class="w-full border-2 border-gray-200 p-3 rounded-lg focus:outline-none focus:border-ozm-green" required>
-            </div>
+    </main>
 
-            <button type="submit" id="submit-btn" class="w-full bg-ozm-green text-white font-bold text-lg py-3 rounded-lg hover:bg-teal-800 transition shadow-md">
-                تسجيل الدخول
-            </button>
-        </form>
-    </div>
-
-    <script>
-        // رابط مشروعك ومفتاح الـ API
-        const SUPABASE_URL = 'https://ovxstsmbzeuanbylmefq.supabase.co';
-        const SUPABASE_KEY = 'Sb_publishable_xVQ6FzQf0Y44JaMTHkIkGA_shW0UU2h';
-        
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-        async function handleLogin(event) {
-            event.preventDefault(); // منع تحديث الصفحة
-            
-            const idInput = document.getElementById('academicId').value.trim();
-            const passInput = document.getElementById('password').value.trim();
-            const btn = document.getElementById('submit-btn');
-            const alertBox = document.getElementById('alert-box');
-
-            // تغيير شكل الزر أثناء التحميل
-            btn.innerText = 'جاري التحقق...';
-            btn.disabled = true;
-            alertBox.classList.add('hidden');
-
-            try {
-                // البحث في قاعدة البيانات عن الرقم الأكاديمي وكلمة المرور
-                const { data, error } = await supabase
-                    .from('students')
-                    .select('*')
-                    .eq('academic_id', idInput)
-                    .eq('password', passInput)
-                    .single();
-
-                if (error || !data) {
-                    // حالة خطأ في البيانات
-                    showAlert('الرقم الأكاديمي أو كلمة المرور غير صحيحة.', 'bg-red-100', 'text-red-700', 'border-red-200');
-                } else {
-                    // حالة البيانات صحيحة.. نتحقق من الدفع الآن
-                    if (data.payment_status === 'unpaid') {
-                        showAlert('عفواً، حسابك معلق مؤقتاً لعدم استكمال سداد الرسوم. يرجى مراجعة الإدارة المالية.', 'bg-yellow-100', 'text-yellow-800', 'border-yellow-300');
-                    } else {
-                        // حالة الدفع صحيحة (نجاح الدخول)
-                        showAlert('تم تسجيل الدخول بنجاح! جاري التوجيه...', 'bg-green-100', 'text-green-800', 'border-green-300');
-                    }
-                }
-            } catch (err) {
-                showAlert('حدث خطأ في الاتصال بالسيرفر. حاول مرة أخرى.', 'bg-red-100', 'text-red-700', 'border-red-200');
-            } finally {
-                btn.innerText = 'تسجيل الدخول';
-                btn.disabled = false;
-            }
-        }
-
-        function showAlert(message, bgClass, textClass, borderClass) {
-            const alertBox = document.getElementById('alert-box');
-            alertBox.className = `mb-4 p-4 rounded-lg text-sm font-bold border ${bgClass} ${textClass} ${borderClass}`;
-            alertBox.innerText = message;
-        }
-    </script>
 </body>
 </html>
