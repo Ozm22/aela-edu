@@ -44,13 +44,11 @@
 
     <script>
         async function handleLogin(event) {
-            // نمنع تحديث الصفحة
             event.preventDefault(); 
             
             const btn = document.getElementById('submit-btn');
             const alertBox = document.getElementById('alert-box');
 
-            // بمجرد الضغط، سيتغير الزر فوراً (وهذا يؤكد أن الزر حي ويعمل)
             btn.innerText = 'جاري التحقق...';
             btn.disabled = true;
             btn.classList.add('opacity-75');
@@ -58,7 +56,6 @@
             alertBox.innerHTML = ''; 
 
             try {
-                // وضعنا الربط هنا داخل الدالة لنصطاد الخطأ إذا رفض المفتاح
                 const SUPABASE_URL = 'https://ovxstsmbzeuanbylmefq.supabase.co';
                 const SUPABASE_KEY = 'Sb_publishable_xVQ6FzQf0Y44JaMTHkIkGA_shW0UU2h';
                 
@@ -67,15 +64,21 @@
                 const idInput = document.getElementById('academicId').value.trim();
                 const passInput = document.getElementById('password').value.trim();
 
+                // استخدمنا maybeSingle لتجنب الانهيار إذا لم يجد بيانات
                 const { data, error } = await supabase
                     .from('students')
                     .select('*')
                     .eq('academic_id', idInput)
                     .eq('password', passInput)
-                    .single();
+                    .maybeSingle();
 
-                if (error || !data) {
-                    showAlert('الرقم الأكاديمي أو كلمة المرور غير صحيحة.', 'bg-red-50', 'text-red-700', 'border-red-200');
+                if (error) {
+                    // هنا سيطبع لك سبب رفض قاعدة البيانات بالضبط
+                    showAlert('خطأ من السيرفر: ' + error.message, 'bg-red-50', 'text-red-700', 'border-red-200');
+                    resetButton(btn);
+                } else if (!data) {
+                    // إذا اتصل بنجاح لكن لم يجد البيانات
+                    showAlert('لم يتم العثور على طالب بهذه البيانات. تأكد من أسماء الأعمدة في الجدول.', 'bg-red-50', 'text-red-700', 'border-red-200');
                     resetButton(btn);
                 } else {
                     if (data.payment_status === 'unpaid') {
@@ -91,12 +94,11 @@
                             window.location.href = 'coming-soon.html';
                         }, 1500);
                     } else {
-                        showAlert('حالة الحساب غير معروفة. يرجى مراجعة الإدارة.', 'bg-gray-50', 'text-gray-800', 'border-gray-300');
+                        showAlert('حالة الدفع غير معروفة: ' + data.payment_status, 'bg-gray-50', 'text-gray-800', 'border-gray-300');
                         resetButton(btn);
                     }
                 }
             } catch (err) {
-                // إذا انهار الكود بسبب المفتاح، ستظهر رسالة الخطأ هنا باللون الأحمر بدلاً من التجاهل
                 showAlert('حدث خطأ في النظام: ' + err.message, 'bg-red-50', 'text-red-700', 'border-red-200');
                 resetButton(btn);
             }
