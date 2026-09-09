@@ -43,21 +43,14 @@
     </div>
 
     <script>
-        // الرابط والمفتاح الذي أرسلته
-        const SUPABASE_URL = 'https://ovxstsmbzeuanbylmefq.supabase.co';
-        const SUPABASE_KEY = 'Sb_publishable_xVQ6FzQf0Y44JaMTHkIkGA_shW0UU2h';
-        
-        // إذا كان المفتاح خاطئاً، سيتوقف الكود في هذا السطر ولن تعمل الدالة التي بالأسفل أبداً
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
         async function handleLogin(event) {
+            // نمنع تحديث الصفحة
             event.preventDefault(); 
             
-            const idInput = document.getElementById('academicId').value.trim();
-            const passInput = document.getElementById('password').value.trim();
             const btn = document.getElementById('submit-btn');
             const alertBox = document.getElementById('alert-box');
 
+            // بمجرد الضغط، سيتغير الزر فوراً (وهذا يؤكد أن الزر حي ويعمل)
             btn.innerText = 'جاري التحقق...';
             btn.disabled = true;
             btn.classList.add('opacity-75');
@@ -65,6 +58,15 @@
             alertBox.innerHTML = ''; 
 
             try {
+                // وضعنا الربط هنا داخل الدالة لنصطاد الخطأ إذا رفض المفتاح
+                const SUPABASE_URL = 'https://ovxstsmbzeuanbylmefq.supabase.co';
+                const SUPABASE_KEY = 'Sb_publishable_xVQ6FzQf0Y44JaMTHkIkGA_shW0UU2h';
+                
+                const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+                const idInput = document.getElementById('academicId').value.trim();
+                const passInput = document.getElementById('password').value.trim();
+
                 const { data, error } = await supabase
                     .from('students')
                     .select('*')
@@ -94,7 +96,8 @@
                     }
                 }
             } catch (err) {
-                showAlert('حدث خطأ في الاتصال بالخادم. يرجى التأكد من الإنترنت.', 'bg-red-50', 'text-red-700', 'border-red-200');
+                // إذا انهار الكود بسبب المفتاح، ستظهر رسالة الخطأ هنا باللون الأحمر بدلاً من التجاهل
+                showAlert('حدث خطأ في النظام: ' + err.message, 'bg-red-50', 'text-red-700', 'border-red-200');
                 resetButton(btn);
             }
         }
