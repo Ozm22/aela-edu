@@ -19,15 +19,12 @@
     <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-100">
         
         <div class="text-center mb-6">
-            <!-- زر العودة للرئيسية -->
             <a href="index.html" class="text-sm text-gray-400 hover:text-[#134e4a] block mb-4">← العودة للرئيسية</a>
-            
             <h1 class="text-2xl font-extrabold text-[#134e4a] mb-1">الأكاديمية العربية</h1>
             <p class="text-gray-500 text-sm font-semibold">بوابة دخول الطلاب</p>
         </div>
 
-        <!-- رسالة التنبيه المخفية -->
-        <div id="alert-box" class="hidden mb-5 p-3 rounded-lg text-sm font-bold text-center border"></div>
+        <div id="alert-box" class="hidden mb-5 p-4 rounded-lg text-sm font-bold text-center border"></div>
 
         <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
             <div>
@@ -47,7 +44,6 @@
     </div>
 
     <script>
-        // إعدادات الربط بقاعدة البيانات الخاصة بك
         const SUPABASE_URL = 'https://ovxstsmbzeuanbylmefq.supabase.co';
         const SUPABASE_KEY = 'Sb_publishable_xVQ6FzQf0Y44JaMTHkIkGA_shW0UU2h';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -60,14 +56,12 @@
             const btn = document.getElementById('submit-btn');
             const alertBox = document.getElementById('alert-box');
 
-            // تفعيل حالة التحميل
             btn.innerText = 'جاري التحقق...';
             btn.disabled = true;
             btn.classList.add('opacity-75');
             alertBox.classList.add('hidden');
 
             try {
-                // الاتصال بقاعدة البيانات للبحث عن الطالب
                 const { data, error } = await supabase
                     .from('students')
                     .select('*')
@@ -76,33 +70,37 @@
                     .single();
 
                 if (error || !data) {
-                    // إذا كان الرقم أو الباسورد خطأ
                     showAlert('الرقم الأكاديمي أو كلمة المرور غير صحيحة.', 'bg-red-50', 'text-red-700', 'border-red-200');
+                    resetButton(btn);
                 } else {
-                    // إذا كانت البيانات صحيحة، نفحص حالة الدفع
                     if (data.payment_status === 'unpaid') {
-                        showAlert('عفواً، حسابك معلق مؤقتاً لعدم استكمال سداد الرسوم. يرجى مراجعة الإدارة المالية.', 'bg-yellow-50', 'text-yellow-800', 'border-yellow-300');
+                        // إظهار رسالة وزر يوجه لصفحة الدفع
+                        showAlert('عفواً، حسابك معلق مؤقتاً لعدم استكمال سداد الرسوم.<br><br><a href="payment.html" class="inline-block bg-[#d97706] text-white px-6 py-2 rounded-full shadow hover:bg-yellow-600 transition">رفع سند الدفع الآن</a>', 'bg-yellow-50', 'text-yellow-800', 'border-yellow-300');
+                        resetButton(btn);
                     } else {
                         showAlert('تم تسجيل الدخول بنجاح! جاري التوجيه...', 'bg-green-50', 'text-green-800', 'border-green-300');
-                        // سيتم تحويل الطالب هنا مستقبلاً لصفحة dashboard.html
+                        setTimeout(() => {
+                            window.location.href = 'coming-soon.html';
+                        }, 1000);
                     }
                 }
             } catch (err) {
-                showAlert('حدث خطأ في الاتصال بالخادم. يرجى التأكد من اتصالك بالإنترنت.', 'bg-red-50', 'text-red-700', 'border-red-200');
-            } finally {
-                // إرجاع الزر لحالته الطبيعية
-                btn.innerText = 'تسجيل الدخول';
-                btn.disabled = false;
-                btn.classList.remove('opacity-75');
+                showAlert('حدث خطأ في الاتصال. تأكد من الإنترنت.', 'bg-red-50', 'text-red-700', 'border-red-200');
+                resetButton(btn);
             }
         }
 
-        // دالة لإظهار التنبيهات الملونة
+        function resetButton(btn) {
+            btn.innerText = 'تسجيل الدخول';
+            btn.disabled = false;
+            btn.classList.remove('opacity-75');
+        }
+
         function showAlert(message, bgClass, textClass, borderClass) {
             const alertBox = document.getElementById('alert-box');
-            // مسح الكلاسات القديمة وإضافة الجديدة
-            alertBox.className = `mb-5 p-3 rounded-lg text-sm font-bold text-center border block ${bgClass} ${textClass} ${borderClass}`;
-            alertBox.innerText = message;
+            // استخدمنا innerHTML بدلاً من innerText لكي يعمل زر الرابط داخل الرسالة
+            alertBox.innerHTML = message;
+            alertBox.className = `mb-5 p-4 rounded-lg text-sm font-bold text-center border block leading-relaxed ${bgClass} ${textClass} ${borderClass}`;
         }
     </script>
 </body>
