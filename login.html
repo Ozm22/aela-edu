@@ -56,15 +56,15 @@
             alertBox.innerHTML = ''; 
 
             try {
+                // وضعنا المفتاح الصحيح هنا وتم تصحيح الحرف الأول إلى e صغيرة
                 const SUPABASE_URL = 'https://ovxstsmbzeuanbylmefq.supabase.co';
-                const SUPABASE_KEY = 'Sb_publishable_xVQ6FzQf0Y44JaMTHkIkGA_shW0UU2h';
+                const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92eHN0c21iemV1YW5ieWxtZWZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgyMjMxNTIsImV4cCI6MjEwMzc5OTE1Mn0.O6elpnPpfe1KXZabQIBfqgFZeaqVz_m3SpqCn6eaQHc';
                 
                 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
                 const idInput = document.getElementById('academicId').value.trim();
                 const passInput = document.getElementById('password').value.trim();
 
-                // استخدمنا maybeSingle لتجنب الانهيار إذا لم يجد بيانات
                 const { data, error } = await supabase
                     .from('students')
                     .select('*')
@@ -73,12 +73,10 @@
                     .maybeSingle();
 
                 if (error) {
-                    // هنا سيطبع لك سبب رفض قاعدة البيانات بالضبط
                     showAlert('خطأ من السيرفر: ' + error.message, 'bg-red-50', 'text-red-700', 'border-red-200');
                     resetButton(btn);
                 } else if (!data) {
-                    // إذا اتصل بنجاح لكن لم يجد البيانات
-                    showAlert('لم يتم العثور على طالب بهذه البيانات. تأكد من أسماء الأعمدة في الجدول.', 'bg-red-50', 'text-red-700', 'border-red-200');
+                    showAlert('الرقم الأكاديمي أو كلمة المرور غير صحيحة.', 'bg-red-50', 'text-red-700', 'border-red-200');
                     resetButton(btn);
                 } else {
                     if (data.payment_status === 'unpaid') {
