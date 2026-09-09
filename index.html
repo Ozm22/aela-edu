@@ -47,8 +47,7 @@
     <nav class="flex justify-between items-center p-4 md:p-6 bg-white shadow-sm">
         <div class="flex gap-2 md:gap-4 items-center">
             <button onclick="startRegistration()" class="bg-ozm-green text-white px-4 py-2 md:px-6 md:py-2 rounded-full font-bold hover:bg-teal-800 transition text-sm md:text-base shadow-md">انضم الآن</button>
-            <!-- تم تعديل هذا الزر فقط ليوجه إلى login.html -->
-            <button onclick="window.location.href='login.html'" class="border border-ozm-gold text-ozm-gold px-4 py-2 md:px-6 md:py-2 rounded-full font-bold hover:bg-yellow-50 transition text-sm md:text-base">تسجيل الدخول</button>
+            <a href="login.html" class="inline-block border border-ozm-gold text-ozm-gold px-4 py-2 md:px-6 md:py-2 rounded-full font-bold hover:bg-yellow-50 transition text-sm md:text-base">تسجيل الدخول</a>
         </div>
         <ul class="hidden lg:flex gap-6 font-semibold text-ozm-green">
             <li><a href="#" class="hover:text-ozm-gold transition">الرئيسية</a></li>
@@ -78,12 +77,9 @@
             <button onclick="startRegistration()" class="bg-blue-600 text-white px-6 py-2 rounded-full font-bold hover:bg-blue-700 transition shadow whitespace-nowrap">سجل مقعدك الآن</button>
         </div>
 
-        <div class="relative rounded-3xl overflow-hidden shadow-2xl h-[400px] md:h-[500px]">
+        <!-- تم إزالة الزر والنص من الصورة هنا -->
+        <div class="relative rounded-3xl overflow-hidden shadow-lg h-[400px] md:h-[500px]">
             <img src="1782142071266.png" alt="الواجهة الرئيسية" class="absolute inset-0 w-full h-full object-cover">
-            
-            <div class="absolute inset-x-0 bottom-0 flex flex-col justify-end items-center p-6 md:p-10 bg-gradient-to-t from-black/70 to-transparent h-1/3">
-                <button onclick="startRegistration()" class="bg-ozm-gold text-white px-10 py-4 rounded-full text-lg md:text-2xl font-bold hover:bg-yellow-600 transition shadow-xl animate-pulse hover:animate-none border-2 border-white/20">ابدأ رحلتك التعليمية الآن</button>
-            </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
@@ -293,7 +289,9 @@
                 <p class="text-lg text-gray-800 font-bold">سيتم الرد عليك بطريقة التحويل ورقم الحساب عبر رقم الهاتف المسجل لدينا.</p>
             </div>
             <p class="text-sm text-gray-400 mt-6 font-semibold">(تم توجيه الطلب تلقائياً إلى الإدارة)</p>
-            <button onclick="location.reload()" class="mt-8 px-6 py-2 border border-ozm-green text-ozm-green rounded-full font-bold hover:bg-teal-50 transition">العودة للرئيسية</button>
+            <!-- زر الانتقال لصفحة الدفع مضاف هنا -->
+            <a href="payment.html" class="mt-8 px-6 py-2 border border-ozm-gold text-ozm-gold rounded-full font-bold hover:bg-yellow-50 transition block w-fit mx-auto">الانتقال لرفع سند الدفع</a>
+            <button onclick="location.reload()" class="mt-4 px-6 py-2 bg-gray-100 text-gray-700 rounded-full font-bold hover:bg-gray-200 transition">العودة للرئيسية</button>
         </div>
     </div>
 
